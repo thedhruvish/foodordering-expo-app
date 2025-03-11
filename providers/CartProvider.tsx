@@ -16,7 +16,7 @@ const CartProvider = ({ children }: PropsWithChildren) => {
   const [items, setItems] = useState<CartItem[]>([]);
 
   const addItem = (product: Product, size: CartItem["size"]) => {
-    console.log(product)
+    console.log(product);
     const existingItem = items.find(
       (item) => item.product === product && item.size === size
     );

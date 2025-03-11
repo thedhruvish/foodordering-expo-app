@@ -7,7 +7,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "jest": {
     "preset": "jest-expo"
