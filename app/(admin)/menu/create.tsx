@@ -38,7 +38,7 @@ export default function CreateProductScreen() {
   };
 
   const onCreate = () => {
-    if (!validateInput) {
+    if (!validateInput()) {
       return;
     }
 

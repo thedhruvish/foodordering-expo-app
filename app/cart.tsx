@@ -15,7 +15,12 @@ const CartScreen = () => {
         contentContainerStyle={{ padding: 10, gap: 1 }}
       />
       <Text
-        style={{ marginTop: 20, fontSize: 20, fontWeight: "500", color: "white" }}
+        style={{
+          marginTop: 20,
+          fontSize: 20,
+          fontWeight: "500",
+          color: "white",
+        }}
       >
         Total : {total.toString()}
       </Text>
