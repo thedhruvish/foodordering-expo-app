@@ -67,7 +67,7 @@ export default function CreateProductScreen() {
     deleteProduct(id, {
       onSuccess: () => {
         resetFields();
-        router.replace("/(admin)");
+        router.replace("/(admin)/menu");
       },
     });
   };
@@ -104,7 +104,7 @@ export default function CreateProductScreen() {
       {
         onSuccess: () => {
           resetFields();
-          router.back();
+          router.replace("/(admin)/menu");
         },
       }
     );

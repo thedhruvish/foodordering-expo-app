@@ -7,12 +7,13 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React from "react";
-import { Link, Stack, useLocalSearchParams } from "expo-router";
+import { Link, Redirect, Stack, useLocalSearchParams } from "expo-router";
 import { defaultPizzaImage } from "@/components/ProductListItem";
 import { PizzaSize } from "@/types";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { useProduct } from "@/api/products";
+import Button from "@/components/Button";
 
 const size: PizzaSize[] = ["S", "M", "L", "XL"];
 
@@ -31,7 +32,6 @@ const ProductDetailScreen = () => {
   return (
     <View style={styles.container}>
       <Stack.Screen
-        name="[id]"
         options={{
           title: "Menu",
           headerRight: () => (
@@ -50,7 +50,8 @@ const ProductDetailScreen = () => {
           ),
         }}
       />
-      <Stack.Screen options={{ title: product?.name }} />
+
+      <Stack.Screen options={{ title: product.name }} />
       <Image
         source={{ uri: product.image || defaultPizzaImage }}
         style={styles.image}
