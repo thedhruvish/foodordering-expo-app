@@ -134,12 +134,13 @@ export default function CreateProductScreen() {
       }
     );
   };
-  const onUpdating = () => {
+  const onUpdating = async () => {
     if (!validateInput()) {
       return;
     }
+    const imagePath = await uploadImage();
     updateProduct(
-      { id, name, price: parseFloat(price), image },
+      { id, name, price: parseFloat(price), image: imagePath },
       {
         onSuccess: () => {
           resetFields();
