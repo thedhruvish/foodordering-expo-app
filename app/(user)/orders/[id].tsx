@@ -22,7 +22,7 @@ const OrderDetailScreen = () => {
     return <ActivityIndicator />;
   }
 
-  if (error) {
+  if (error || !order) {
     return <Text>Failed to fetch orders</Text>;
   }
 
