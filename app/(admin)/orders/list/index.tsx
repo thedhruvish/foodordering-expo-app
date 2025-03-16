@@ -1,7 +1,8 @@
 import { View, Text, FlatList, ActivityIndicator } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import OrderItemListItem from "@/components/OrderListItem";
 import { useAdminOrderList } from "@/api/orders";
+import { useInsertOrderItems } from "@/api/order-items";
 
 export default function OrdersScreen() {
   const {
@@ -9,6 +10,7 @@ export default function OrdersScreen() {
     isLoading,
     error,
   } = useAdminOrderList({ archived: false });
+  useInsertOrderItems();
 
   if (isLoading) {
     return <ActivityIndicator />;
