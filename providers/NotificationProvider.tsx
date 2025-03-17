@@ -1,21 +1,32 @@
 import { registerForPushNotificationsAsync } from "@/lib/notifications";
-import { ExpoPushToken } from "expo-notifications";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import * as Notifications from "expo-notifications";
+import React from "react";
+import { useAuth } from "./AuthProvider";
+import { supabase } from "@/lib/supabase";
 
 const NotificationProvider = ({ children }: PropsWithChildren) => {
-  const [expoPushToken, setExpoPushToken] = useState<
-    ExpoPushToken | undefined
-  >();
-  const [notification, setNotification] =
-    useState<Notifications.Notification>();
-  const notificationListener = useRef<Notifications.Subscription>();
-  const responseListener = useRef<Notifications.Subscription>();
+  const { profile } = useAuth();
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState<
+    Notifications.Notification | undefined
+  >(undefined);
+  const notificationListener = useRef<Notifications.EventSubscription>();
+  const responseListener = useRef<Notifications.EventSubscription>();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
+    registerForPushNotificationsAsync()
+      .then(async (token) => {
+        setExpoPushToken(token ?? "");
+        if (!token) {
+          return;
+        }
+        await supabase
+          .from("profiles")
+          .update({ expo_push_token: token })
+          .eq("id", profile.id);
+      })
+      .catch((error: any) => setExpoPushToken(`${error}`));
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
@@ -28,19 +39,14 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
       });
 
     return () => {
-      if (notificationListener.current) {
+      notificationListener.current &&
         Notifications.removeNotificationSubscription(
           notificationListener.current
         );
-      }
-      if (responseListener.current) {
+      responseListener.current &&
         Notifications.removeNotificationSubscription(responseListener.current);
-      }
     };
   }, []);
-
-  confirm.log(notification);
-  console.log(expoPushToken);
 
   return <>{children}</>;
 };
